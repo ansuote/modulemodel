@@ -1,0 +1,75 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'org.greenrobot.greendao'
+apply plugin: 'com.alibaba.arouter'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        kapt {
+            arguments {
+                arg("AROUTER_MODULE_NAME", project.getName())
+            }
+        }
+    }
+
+    buildTypes {
+
+        debug {
+            buildConfigField "String", "HOST_BASE", "$rootProject.HOST_BASE"
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "HOST_BASE", "$rootProject.HOST_BASE"
+        }
+    }
+
+}
+
+greendao {
+    schemaVersion 1 //数据库版本号
+    targetGenDir 'src/main/java'    //设置DaoMaster、DaoSession、Dao目录
+    daoPackage 'com.lkl.ansuote.modulemodel.core.dao'  //设置DaoMaster、DaoSession、Dao包名
+    //targetGenDirTest：设置生成单元测试目录
+    //generateTests：设置自动生成单元测试用例
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation project(":hdqlibrary")
+
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    //di
+    implementation "com.google.dagger:dagger:$rootProject.daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
+    implementation "org.glassfish:javax.annotation:$rootProject.javaxVersion"
+
+    //greendao
+    implementation 'org.greenrobot:greendao:3.2.2'
+
+    //greendao 更新帮助类 2.0.3
+    implementation 'com.github.yuweiguocn:GreenDaoUpgradeHelper:v2.1.0'
+
+    //已使用加密 sqlcipher 加密打包后，apk 大小会变大，每个会 CPU 类型会增加近 2m 的大小 ，暂时屏蔽
+
+    //implementation 'net.zetetic:android-database-sqlcipher:3.5.9@aar'
+
+    //android_dbinspector 数据库调试
+}
