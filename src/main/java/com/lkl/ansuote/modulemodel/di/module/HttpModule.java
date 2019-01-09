@@ -7,6 +7,8 @@ import com.lkl.ansuote.modulemodel.BuildConfig;
 import com.lkl.ansuote.modulemodel.base.ModelConstants;
 import com.lkl.ansuote.modulemodel.core.http.api.Apis;
 import com.lkl.ansuote.modulemodel.core.http.cookies.CookiesManager;
+import com.lkl.ansuote.modulemodel.di.module.https.SafeHostnameVerifier;
+import com.lkl.ansuote.modulemodel.di.module.https.SslContextFactory;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
@@ -113,6 +115,8 @@ public class HttpModule {
         builder.retryOnConnectionFailure(true);
         //cookie认证
         builder.cookieJar(new CookiesManager());
+        builder.hostnameVerifier(new SafeHostnameVerifier());
+        builder.sslSocketFactory(SslContextFactory.getSSLSocketFactoryForTwoWay());
         return builder.build();
     }
 
