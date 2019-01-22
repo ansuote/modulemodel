@@ -33,7 +33,9 @@ android {
         }
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            consumerProguardFiles 'proguard-rules.pro'
+
             buildConfigField "String", "HOST_BASE", "$rootProject.HOST_BASE"
         }
     }
@@ -72,4 +74,7 @@ dependencies {
     //implementation 'net.zetetic:android-database-sqlcipher:3.5.9@aar'
 
     //android_dbinspector 数据库调试
+
+    //bus
+    api project(":modulebus")
 }
