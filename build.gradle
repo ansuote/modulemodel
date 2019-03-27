@@ -74,7 +74,4 @@ dependencies {
     //implementation 'net.zetetic:android-database-sqlcipher:3.5.9@aar'
 
     //android_dbinspector 数据库调试
-
-    //bus
-    api project(":modulebus")
 }
